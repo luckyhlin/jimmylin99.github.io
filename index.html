@@ -86,17 +86,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Efficency-of-numpy-and-list"><a href="#Efficency-of-numpy-and-list" class="headerlink" title="Efficency of numpy and list"></a>Efficency of numpy and list</h1><blockquote>
+        <h2 id="Efficency-of-numpy-and-list"><a href="#Efficency-of-numpy-and-list" class="headerlink" title="Efficency of numpy and list"></a>Efficency of numpy and list</h2><blockquote>
 <p>np.append() copy all the data in the array every time, but list grow the capacity by a factor (1.125). list is fast, but memory usage is larger than array. You can use array module of the python standard library if you care about the memory.</p>
 </blockquote>
-<p>so for <em>running speed</em>, list is faster than numpy’s append</p>
-<p>but for <em>memory</em>, list consumes more than numpy.</p>
+<p>so </p>
+<ul>
+<li><p>for <em>running speed</em>, list is faster than numpy’s append, when doing <code>append</code></p>
+<ul>
+<li>which means, if the size of array is fixed beforehand, then <code>numpy</code> is of the best option.</li>
+</ul>
+</li>
+<li><p>but for <em>memory</em>, list consumes more than numpy.</p>
+</li>
+</ul>
 <p>The differences in both aspects are significant.</p>
+<h2 id="Python-Dictionary"><a href="#Python-Dictionary" class="headerlink" title="Python Dictionary"></a>Python Dictionary</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dict0 = &#123;&#125;</span><br><span class="line">dict1 = &#123;<span class="string">'Abc'</span>: <span class="number">102</span>&#125;</span><br><span class="line"><span class="comment"># to update dict0</span></span><br><span class="line">dict0.update(dict1)</span><br></pre></td></tr></table></figure>
+
+<p>This operation is <code>in place</code></p>
+<h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df.drop_duplicates()  <span class="comment"># not in-place</span></span><br><span class="line"></span><br><span class="line">newDf = oldDf.reset_index(drop=<span class="literal">True</span>)  <span class="comment"># re-index from 0</span></span><br><span class="line"></span><br><span class="line">newDf = df.concat([df1, df2], axis=<span class="number">1</span>)  <span class="comment"># combine two df side-by-side</span></span><br><span class="line"><span class="comment"># plz make sure there are the same rows and index names, also not the same column names</span></span><br><span class="line"><span class="comment"># otherwise google lol</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/05/python/" data-id="ckb1zyzo0000188u5d2uz5nij" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/05/python/" data-id="ckb2eby2y0000h4u59hvx2wmy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/05/hello-world/" data-id="ckb1zyznv000088u57wvn0b0y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/05/hello-world/" data-id="ckb2eby330001h4u5b0lv8pw6" class="article-share-link">Share</a>
       
       
     </footer>
