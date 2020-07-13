@@ -64,6 +64,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Duckietown" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/13/Duckietown/" class="article-date">
+  <time datetime="2020-07-13T11:00:52.000Z" itemprop="datePublished">2020-07-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/13/Duckietown/">Duckie town &amp; Container</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Singularity"><a href="#Singularity" class="headerlink" title="Singularity"></a>Singularity</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sudo singularity <span class="built_in">exec</span> --writable sandbox <span class="built_in">command</span></span><br><span class="line"><span class="comment"># --writable is critical, otherwise may even not work for apt-get</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conda should be installed both within container and outside, the conda environment is defined outside container, then it can be activated via </span></span><br><span class="line"><span class="built_in">source</span> activate env_name</span><br><span class="line"><span class="comment"># then the conda env would be shared</span></span><br><span class="line"><span class="comment"># other softwares should be installed before building the simg file</span></span><br><span class="line"></span><br><span class="line">u2cb <span class="comment"># can be used; note that creating image is done on u2cb server (not host machine), after defining (either via .def file or shell interactively) the simg can be downloaded to host</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># install virtual machine</span></span><br><span class="line"><span class="comment"># use VMWare Workstation Pro with latest Ubuntu, which is free via SJTU Software Center (No need to register or log in anything)</span></span><br><span class="line"><span class="comment"># the network connection problem (especially VPN problem)</span></span><br><span class="line"><span class="comment"># need to check VM's IP, within Host side (i.e. when using Windows, use ipconfig to see IPv4 address for VMnet8, if using NAT mode), then set this address to the Settings &gt; Network &gt; Network Proxy</span></span><br><span class="line"><span class="comment"># further the VPN (SSR), should check Option Settings &gt; Allow LAN</span></span><br></pre></td></tr></table></figure>
+
+<p>The result is unsatisfactory, but these experience should be recorded for potential further usage.</p>
+<h2 id="Duckie-town"><a href="#Duckie-town" class="headerlink" title="Duckie town"></a>Duckie town</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="comment"># to use wrapper.Moniter</span></span><br><span class="line"><span class="comment"># may further need</span></span><br><span class="line">conda install -c conda-forge ffmpeg</span><br><span class="line"><span class="comment"># details plz check: https://github.com/duckietown/gym-duckietown#ImportError-Library-GLU-not-found</span></span><br><span class="line"><span class="comment"># xvfb also required to run on headless server (the one without display device)</span></span><br><span class="line"><span class="comment"># however, the running speed using xvfb (virtual display buffer) on GPU nodes is even worse than using remote desktop with only cpu nodes, i.e. 1 fps vs. 5 fps</span></span><br><span class="line"><span class="comment"># the best solution is to make GPU nodes available for using remote desktop, which however is currently unavailable for SJTU HPC</span></span><br></pre></td></tr></table></figure>
+
+<p>Next step, check if the efficiency increases or not, when removing the <code>wrapper.Moniter</code>; also, make training further autonomous. There is no need to record videos, the final result can be checked with a stand-alone program. </p>
+<p>Guess: bottleneck for training is the CNN computing part, such that currently the fps is 5.</p>
+<p>Current target is to successfully run MFRL.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/13/Duckietown/" data-id="ckckf6fcr0000agu53j8c9oqj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-RL" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/06/28/RL/" class="article-date">
@@ -88,6 +132,12 @@
       
         <h2 id="PPO"><a href="#PPO" class="headerlink" title="PPO"></a>PPO</h2><p>loss contains three components, policy surrogate loss, value function loss and policy entropy loss (regularization term)</p>
 <p>Default coefficient maybe not suitable. Another alternative way (instead of hyper-parameter tuning) is to normalize reward (To be investigated…)</p>
+<h3 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h3><p>Why duckie bot performs the same action (turning left) when entropy is high?</p>
+<ul>
+<li>After checking the source code, I guess it’s not entropy’s problem, but the mean of policy’s distribution (last layer) gives a value out of range [-1, 1], so that it always clips to the same boundary value.</li>
+<li>But another problem comes: why mean goes out of bound?</li>
+</ul>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p>PPO Hyperparameters: <a href="https://docs.google.com/spreadsheets/d/1fNVfqgAifDWnTq-4izPPW_CVAUu9FXl3dWkqWIXz04o/edit#gid=0" target="_blank" rel="noopener">https://docs.google.com/spreadsheets/d/1fNVfqgAifDWnTq-4izPPW_CVAUu9FXl3dWkqWIXz04o/edit#gid=0</a></p>
 
       
     </div>
@@ -143,9 +193,7 @@
 <p>This operation is <code>in place</code></p>
 <h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df.drop_duplicates()  <span class="comment"># not in-place</span></span><br><span class="line"></span><br><span class="line">newDf = oldDf.reset_index(drop=<span class="literal">True</span>)  <span class="comment"># re-index from 0</span></span><br><span class="line"></span><br><span class="line">newDf = df.concat([df1, df2], axis=<span class="number">1</span>)  <span class="comment"># combine two df side-by-side</span></span><br><span class="line"><span class="comment"># plz make sure there are the same rows and index names, also not the same column names</span></span><br><span class="line"><span class="comment"># otherwise google lol</span></span><br></pre></td></tr></table></figure>
 
-
-
-
+<h2 id="FluentPython-Chapter-1"><a href="#FluentPython-Chapter-1" class="headerlink" title="FluentPython Chapter 1"></a>FluentPython Chapter 1</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">list.index()</span><br><span class="line">list concatenate using: +</span><br><span class="line">module collections.namedtuple(<span class="string">'name'</span>, [<span class="string">'property_filed1'</span>, <span class="string">'...'</span>])</span><br><span class="line">module random.choice(iterable_object):</span><br><span class="line">    iterable means: __getitem__() <span class="keyword">and</span> __len__() are defined</span><br><span class="line">dict can be define <span class="keyword">in</span> this way:</span><br><span class="line">    a = dict(diamond=<span class="number">3</span>, spades=<span class="string">'hello'</span>)</span><br><span class="line">    a[<span class="string">'diamond'</span>]</span><br><span class="line">function sorted(object, key=func)</span><br></pre></td></tr></table></figure>
 
 
       
@@ -228,7 +276,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
     </div>
   </div>
 
@@ -239,6 +287,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/07/13/Duckietown/">Duckie town &amp; Container</a>
+          </li>
         
           <li>
             <a href="/2020/06/28/RL/">RL</a>

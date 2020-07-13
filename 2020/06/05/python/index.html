@@ -15,7 +15,7 @@
 <meta property="og:description" content="Efficency of numpy and list np.append() copy all the data in the array every time, but list grow the capacity by a factor (1.125). list is fast, but memory usage is larger than array. You can use arra">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-06-05T09:14:28.000Z">
-<meta property="article:modified_time" content="2020-06-28T08:02:36.563Z">
+<meta property="article:modified_time" content="2020-07-01T10:26:58.687Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -107,9 +107,7 @@
 <p>This operation is <code>in place</code></p>
 <h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df.drop_duplicates()  <span class="comment"># not in-place</span></span><br><span class="line"></span><br><span class="line">newDf = oldDf.reset_index(drop=<span class="literal">True</span>)  <span class="comment"># re-index from 0</span></span><br><span class="line"></span><br><span class="line">newDf = df.concat([df1, df2], axis=<span class="number">1</span>)  <span class="comment"># combine two df side-by-side</span></span><br><span class="line"><span class="comment"># plz make sure there are the same rows and index names, also not the same column names</span></span><br><span class="line"><span class="comment"># otherwise google lol</span></span><br></pre></td></tr></table></figure>
 
-
-
-
+<h2 id="FluentPython-Chapter-1"><a href="#FluentPython-Chapter-1" class="headerlink" title="FluentPython Chapter 1"></a>FluentPython Chapter 1</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">list.index()</span><br><span class="line">list concatenate using: +</span><br><span class="line">module collections.namedtuple(<span class="string">'name'</span>, [<span class="string">'property_filed1'</span>, <span class="string">'...'</span>])</span><br><span class="line">module random.choice(iterable_object):</span><br><span class="line">    iterable means: __getitem__() <span class="keyword">and</span> __len__() are defined</span><br><span class="line">dict can be define <span class="keyword">in</span> this way:</span><br><span class="line">    a = dict(diamond=<span class="number">3</span>, spades=<span class="string">'hello'</span>)</span><br><span class="line">    a[<span class="string">'diamond'</span>]</span><br><span class="line">function sorted(object, key=func)</span><br></pre></td></tr></table></figure>
 
 
       
@@ -160,7 +158,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
     </div>
   </div>
 
@@ -171,6 +169,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/07/13/Duckietown/">Duckie town &amp; Container</a>
+          </li>
         
           <li>
             <a href="/2020/06/28/RL/">RL</a>
