@@ -7,15 +7,15 @@
   
   <title>Duckie town &amp; Container | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Singularity123456789101112131415sudo singularity exec --writable sandbox command# --writable is critical, otherwise may even not work for apt-get# conda should be installed both within container and o">
+  <meta name="description" content="Singularity1234567891011121314151617sudo singularity exec --writable sandbox command# --writable is critical, otherwise may even not work for apt-get# conda should be installed both within container a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Duckie town &amp; Container">
 <meta property="og:url" content="http://yoursite.com/2020/07/13/Duckietown/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Singularity123456789101112131415sudo singularity exec --writable sandbox command# --writable is critical, otherwise may even not work for apt-get# conda should be installed both within container and o">
+<meta property="og:description" content="Singularity1234567891011121314151617sudo singularity exec --writable sandbox command# --writable is critical, otherwise may even not work for apt-get# conda should be installed both within container a">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-13T11:00:52.000Z">
-<meta property="article:modified_time" content="2020-07-13T11:23:15.757Z">
+<meta property="article:modified_time" content="2020-07-14T07:41:38.953Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -88,7 +88,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Singularity"><a href="#Singularity" class="headerlink" title="Singularity"></a>Singularity</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sudo singularity <span class="built_in">exec</span> --writable sandbox <span class="built_in">command</span></span><br><span class="line"><span class="comment"># --writable is critical, otherwise may even not work for apt-get</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conda should be installed both within container and outside, the conda environment is defined outside container, then it can be activated via </span></span><br><span class="line"><span class="built_in">source</span> activate env_name</span><br><span class="line"><span class="comment"># then the conda env would be shared</span></span><br><span class="line"><span class="comment"># other softwares should be installed before building the simg file</span></span><br><span class="line"></span><br><span class="line">u2cb <span class="comment"># can be used; note that creating image is done on u2cb server (not host machine), after defining (either via .def file or shell interactively) the simg can be downloaded to host</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># install virtual machine</span></span><br><span class="line"><span class="comment"># use VMWare Workstation Pro with latest Ubuntu, which is free via SJTU Software Center (No need to register or log in anything)</span></span><br><span class="line"><span class="comment"># the network connection problem (especially VPN problem)</span></span><br><span class="line"><span class="comment"># need to check VM's IP, within Host side (i.e. when using Windows, use ipconfig to see IPv4 address for VMnet8, if using NAT mode), then set this address to the Settings &gt; Network &gt; Network Proxy</span></span><br><span class="line"><span class="comment"># further the VPN (SSR), should check Option Settings &gt; Allow LAN</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Singularity"><a href="#Singularity" class="headerlink" title="Singularity"></a>Singularity</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sudo singularity <span class="built_in">exec</span> --writable sandbox <span class="built_in">command</span></span><br><span class="line"><span class="comment"># --writable is critical, otherwise may even not work for apt-get</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conda should be installed both within container and outside, the conda environment is defined outside container, then it can be activated via </span></span><br><span class="line"><span class="built_in">source</span> activate env_name</span><br><span class="line"><span class="comment"># then the conda env would be shared</span></span><br><span class="line"><span class="comment"># other softwares should be installed before building the simg file</span></span><br><span class="line"></span><br><span class="line">u2cb <span class="comment"># can be used; note that creating image is done on u2cb server (not host machine), after defining (either via .def file or shell interactively) the simg can be downloaded to host</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># install virtual machine</span></span><br><span class="line"><span class="comment"># use VMWare Workstation Pro with latest Ubuntu, which is free via SJTU Software Center (No need to register or log in anything)</span></span><br><span class="line"><span class="comment"># the network connection problem (especially VPN problem)</span></span><br><span class="line"><span class="comment"># need to check VM's IP, within Host side (i.e. when using Windows, use ipconfig to see IPv4 address for VMnet8, if using NAT mode), then set this address to the Settings &gt; Network &gt; Network Proxy</span></span><br><span class="line"><span class="comment"># further the VPN (SSR), should check Option Settings &gt; Allow LAN</span></span><br><span class="line"></span><br><span class="line">apt-get update <span class="comment"># otherwise packages may not be found</span></span><br></pre></td></tr></table></figure>
 
 <p>The result is unsatisfactory, but these experience should be recorded for potential further usage.</p>
 <h2 id="Duckie-town"><a href="#Duckie-town" class="headerlink" title="Duckie town"></a>Duckie town</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="comment"># to use wrapper.Moniter</span></span><br><span class="line"><span class="comment"># may further need</span></span><br><span class="line">conda install -c conda-forge ffmpeg</span><br><span class="line"><span class="comment"># details plz check: https://github.com/duckietown/gym-duckietown#ImportError-Library-GLU-not-found</span></span><br><span class="line"><span class="comment"># xvfb also required to run on headless server (the one without display device)</span></span><br><span class="line"><span class="comment"># however, the running speed using xvfb (virtual display buffer) on GPU nodes is even worse than using remote desktop with only cpu nodes, i.e. 1 fps vs. 5 fps</span></span><br><span class="line"><span class="comment"># the best solution is to make GPU nodes available for using remote desktop, which however is currently unavailable for SJTU HPC</span></span><br></pre></td></tr></table></figure>
@@ -100,7 +100,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/13/Duckietown/" data-id="ckckf6fcr0000agu53j8c9oqj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/13/Duckietown/" data-id="ckclmxdtq0000p8u58sge6bmq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,6 +108,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/07/14/Since-2020/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Since 2020
+        
+      </div>
+    </a>
   
   
     <a href="/2020/06/28/RL/" id="article-nav-older" class="article-nav-link-wrap">
@@ -149,6 +158,10 @@
       <ul>
         
           <li>
+            <a href="/2020/07/14/Since-2020/">Since 2020</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/13/Duckietown/">Duckie town &amp; Container</a>
           </li>
         
@@ -158,10 +171,6 @@
         
           <li>
             <a href="/2020/06/05/python/">python</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/05/hello-world/">Hello World</a>
           </li>
         
       </ul>

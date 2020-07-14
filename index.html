@@ -64,6 +64,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Since-2020" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/14/Since-2020/" class="article-date">
+  <time datetime="2020-07-14T07:43:04.000Z" itemprop="datePublished">2020-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/14/Since-2020/">Since 2020</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="我的网站又重新刷新了"><a href="#我的网站又重新刷新了" class="headerlink" title="我的网站又重新刷新了"></a>我的网站又重新刷新了</h1><p>最早在github.io上用hexo具体是什么情况忘了</p>
+<p>可能是想写博客，但说到底是想给别人看的</p>
+<p>后来不是想给朋友看 或者说 potentially show off</p>
+<p>变成了给喜欢的女生看 记录我想说的话</p>
+<p>后来分手了 那些内容都被格式化了</p>
+<p>后来又换了个女生 寥寥草草记了几笔也再没用了</p>
+<p>后来又分手了 那些内容也不再留下了</p>
+<p>再后来 慢慢承认自己不够聪明的事实</p>
+<p>需要一个记录学习经历 和 关键内容 以备日后查阅的地方</p>
+<p>于是自然而然用了typora</p>
+<p>没有上传到iCloud可能是觉得不够nb吧</p>
+<p>而且typora配hexo是传统？</p>
+<p>写了一点RL python的笔记后 决定把这个作为长期仓库</p>
+<p>于是在新电脑上 重装了hexo 重启这个项目</p>
+<p>这次是写给自己看的</p>
+<p>有用就行 也不想用这个博客做什么矫情的事</p>
+<p>矫情不如写给大众 微信它不香吗</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/14/Since-2020/" data-id="ckclmxdty0001p8u52snfdoc3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Duckietown" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/13/Duckietown/" class="article-date">
@@ -86,7 +139,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Singularity"><a href="#Singularity" class="headerlink" title="Singularity"></a>Singularity</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sudo singularity <span class="built_in">exec</span> --writable sandbox <span class="built_in">command</span></span><br><span class="line"><span class="comment"># --writable is critical, otherwise may even not work for apt-get</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conda should be installed both within container and outside, the conda environment is defined outside container, then it can be activated via </span></span><br><span class="line"><span class="built_in">source</span> activate env_name</span><br><span class="line"><span class="comment"># then the conda env would be shared</span></span><br><span class="line"><span class="comment"># other softwares should be installed before building the simg file</span></span><br><span class="line"></span><br><span class="line">u2cb <span class="comment"># can be used; note that creating image is done on u2cb server (not host machine), after defining (either via .def file or shell interactively) the simg can be downloaded to host</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># install virtual machine</span></span><br><span class="line"><span class="comment"># use VMWare Workstation Pro with latest Ubuntu, which is free via SJTU Software Center (No need to register or log in anything)</span></span><br><span class="line"><span class="comment"># the network connection problem (especially VPN problem)</span></span><br><span class="line"><span class="comment"># need to check VM's IP, within Host side (i.e. when using Windows, use ipconfig to see IPv4 address for VMnet8, if using NAT mode), then set this address to the Settings &gt; Network &gt; Network Proxy</span></span><br><span class="line"><span class="comment"># further the VPN (SSR), should check Option Settings &gt; Allow LAN</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Singularity"><a href="#Singularity" class="headerlink" title="Singularity"></a>Singularity</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">sudo singularity <span class="built_in">exec</span> --writable sandbox <span class="built_in">command</span></span><br><span class="line"><span class="comment"># --writable is critical, otherwise may even not work for apt-get</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conda should be installed both within container and outside, the conda environment is defined outside container, then it can be activated via </span></span><br><span class="line"><span class="built_in">source</span> activate env_name</span><br><span class="line"><span class="comment"># then the conda env would be shared</span></span><br><span class="line"><span class="comment"># other softwares should be installed before building the simg file</span></span><br><span class="line"></span><br><span class="line">u2cb <span class="comment"># can be used; note that creating image is done on u2cb server (not host machine), after defining (either via .def file or shell interactively) the simg can be downloaded to host</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># install virtual machine</span></span><br><span class="line"><span class="comment"># use VMWare Workstation Pro with latest Ubuntu, which is free via SJTU Software Center (No need to register or log in anything)</span></span><br><span class="line"><span class="comment"># the network connection problem (especially VPN problem)</span></span><br><span class="line"><span class="comment"># need to check VM's IP, within Host side (i.e. when using Windows, use ipconfig to see IPv4 address for VMnet8, if using NAT mode), then set this address to the Settings &gt; Network &gt; Network Proxy</span></span><br><span class="line"><span class="comment"># further the VPN (SSR), should check Option Settings &gt; Allow LAN</span></span><br><span class="line"></span><br><span class="line">apt-get update <span class="comment"># otherwise packages may not be found</span></span><br></pre></td></tr></table></figure>
 
 <p>The result is unsatisfactory, but these experience should be recorded for potential further usage.</p>
 <h2 id="Duckie-town"><a href="#Duckie-town" class="headerlink" title="Duckie town"></a>Duckie town</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="comment"># to use wrapper.Moniter</span></span><br><span class="line"><span class="comment"># may further need</span></span><br><span class="line">conda install -c conda-forge ffmpeg</span><br><span class="line"><span class="comment"># details plz check: https://github.com/duckietown/gym-duckietown#ImportError-Library-GLU-not-found</span></span><br><span class="line"><span class="comment"># xvfb also required to run on headless server (the one without display device)</span></span><br><span class="line"><span class="comment"># however, the running speed using xvfb (virtual display buffer) on GPU nodes is even worse than using remote desktop with only cpu nodes, i.e. 1 fps vs. 5 fps</span></span><br><span class="line"><span class="comment"># the best solution is to make GPU nodes available for using remote desktop, which however is currently unavailable for SJTU HPC</span></span><br></pre></td></tr></table></figure>
@@ -98,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/13/Duckietown/" data-id="ckckf6fcr0000agu53j8c9oqj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/13/Duckietown/" data-id="ckclmxdtq0000p8u58sge6bmq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -142,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/28/RL/" data-id="ckbyskf1c0000lgu566g05s59" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/28/RL/" data-id="ckclmxdu00002p8u58zfv7bqp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -199,56 +252,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/05/python/" data-id="ckbyskf1z0001lgu5ds7i5rdv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/05/hello-world/" class="article-date">
-  <time datetime="2020-06-05T08:59:14.168Z" itemprop="datePublished">2020-06-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/05/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/05/hello-world/" data-id="ckbyskf200002lgu531buce7v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/05/python/" data-id="ckclmxdu10003p8u5amq0axop" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,6 +293,10 @@
       <ul>
         
           <li>
+            <a href="/2020/07/14/Since-2020/">Since 2020</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/13/Duckietown/">Duckie town &amp; Container</a>
           </li>
         
@@ -298,10 +306,6 @@
         
           <li>
             <a href="/2020/06/05/python/">python</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/05/hello-world/">Hello World</a>
           </li>
         
       </ul>
