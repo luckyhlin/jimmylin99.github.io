@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://jimmylin99.github.io</id>
+    <title>Gridea</title>
+    <updated>2022-06-22T05:34:19.647Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://jimmylin99.github.io"/>
+    <link rel="self" href="https://jimmylin99.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://jimmylin99.github.io/images/avatar.png</logo>
+    <icon>https://jimmylin99.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[How to install Ubuntu 20.04 (dual boot) on Y9000P 2022 / Legion 5i Pro?]]></title>
+        <id>https://jimmylin99.github.io/post/how-to-install-ubuntu-2004-dual-boot-on-y9000p-2022-legion-5i-pro/</id>
+        <link href="https://jimmylin99.github.io/post/how-to-install-ubuntu-2004-dual-boot-on-y9000p-2022-legion-5i-pro/">
+        </link>
+        <updated>2022-06-22T05:14:54.000Z</updated>
+        <content type="html"><![CDATA[<p>This is a memo for my laptop configuration, and may be helpful for those encountering similar issues.</p>
+<p>This might not for CS beginners, as it would be better to understand some basic theories of OS, Linux and shell. If you have little knowledge on computer, I guess VMWare or WSL may be more suitable, or try to learn it now.</p>
+<aside>
+💡 System Configuration
+</aside>
+<p>CPU: Intel i7-12700H</p>
+<p>GPU: RTX 3060 Laptop (Max-Q)</p>
+<p>Network Card: Intel AX210</p>
+<p>Memory: 8+8 GB (4600 MHz)</p>
+<p>Windows: 11</p>
+<p>Ubuntu: 20.04 (kernel 5.13)</p>
+<p>Production Date: 2022/03/28</p>
+<p>Configuration Date: since 2022/06/04</p>
+<h2 id="install-ubuntu-using-usb">Install Ubuntu using USB</h2>
+<ul>
+<li>download ubuntu 20.04 iso from ubuntu official website</li>
+<li>use <code>Rufus</code> to create a bootable USB</li>
+<li>prepare disk space for ubuntu via disk manager (I prepared 200GB for ubuntu)</li>
+<li>restart <code>windows</code> (may press the shift key)</li>
+<li>press <code>f2</code> during boot to visit <code>bios</code> configuration</li>
+<li>set graphics mode to <code>discrete graphic</code></li>
+<li>(optional) disable secure boot; otherwise remember to <code>enroll MOK</code> later</li>
+<li>save &amp; move on to boot with the UEFI USB</li>
+<li>follow ubuntu installation instructions</li>
+<li>prepare the partition
+<ul>
+<li>16G for <code>/swap</code>, 64G for <code>/</code>, the rest for <code>/home</code> (no need for <code>/boot</code>)</li>
+</ul>
+</li>
+<li>restart</li>
+</ul>
+<p>However, there are certain incompatibility issues required to solve.</p>
+<h2 id="troubleshoot-black-screen-with-blinking-cursor">Troubleshoot black screen with blinking cursor</h2>
+<p>It is highly likely that the video driver (possibly nouveau) is not compatible with current gpu.</p>
+<ul>
+<li>(optional) press <code>ctrl + alt + 2</code> to visit <code>tty</code>; otherwise, reboot by pressing battery key
+<ul>
+<li><code>login</code></li>
+<li><code>reboot</code></li>
+</ul>
+</li>
+<li>press <code>e</code> during boot stage to edit <code>grub</code> file</li>
+<li>replace <code>quiet splash</code> with <code>nomodeset</code> to disable loading video driver at this stage</li>
+<li>continue to boot with <code>ctrl + f10</code></li>
+</ul>
+<p>Then, we need to install the official driver (though it is proprietary)</p>
+<p>However, the wireless network driver may be missing (checking this with <code>nmcli</code>)</p>
+<h2 id="troubleshoot-missing-wireless-driver">Troubleshoot missing wireless driver</h2>
+<p>Fortunately, my wired cable is still working (if you do not have a cable, you may have to download the following stuff and copy to laptop with USB)</p>
+<ul>
+<li>visit <a href="https://launchpad.net/ubuntu/+source/backport-iwlwifi-dkms">https://launchpad.net/ubuntu/+source/backport-iwlwifi-dkms</a></li>
+<li>download the latest backport</li>
+<li>then <code>sudo dpkg -i &lt;deb file&gt;</code> &amp;&amp; <code>sudo reboot</code></li>
+</ul>
+<p>As we have configured our wireless driver, let us update our apt first.</p>
+<h2 id="update-apt">Update apt</h2>
+<p>I would like to configure the apt source first. For desktop ubuntu, go to <code>settings</code> &gt; <code>about</code> &gt; <code>software update</code> &gt; <code>download from</code> &gt; choose the source you like. For me, <code>aliyun</code> is a good choice.</p>
+<p>Then, <code>sudo apt update</code> &amp;&amp; <code>sudo apt upgrade</code></p>
+<h2 id="install-official-video-driver">Install official video driver</h2>
+<ul>
+<li>go to nvidia website to see which driver version is suitable</li>
+<li><code>sudo apt install nvidia-driver-&lt;version&gt;</code> (for me I use 470)</li>
+<li>if secure boot is enabled, set the <code>MOK</code> password and reboot
+<ul>
+<li>during boot stage, go to <code>enroll MOK</code> and type the password to move on; otherwise, the driver will not be loaded</li>
+</ul>
+</li>
+<li>check it by <code>nvidia-smi</code> or <code>nvidia-settings</code></li>
+</ul>
+<h2 id="troubleshoot-uncontrollable-screen-brightness">Troubleshoot uncontrollable screen brightness</h2>
+<p>I have also encountered screen brightness issue, which is annoying.</p>
+<p>You’d better NOT use the script to control it (e.g. brightness-controller).</p>
+<p>Let us modify the <code>grub</code> file to support brightness control.</p>
+<ul>
+<li><code>sudo gedit /etc/default/grub</code></li>
+<li>modify the line to <code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash nvidia.NVreg_RegistryDwords=EnableBrightnessControl=1&quot;</code></li>
+<li><code>sudo update-grub</code> (may need to reboot then)</li>
+</ul>
+<p>There are other solutions, but the above indeed helped me. I also tried adding the following snippet to <code>/usr/share/X11/xorg.conf.d/10-nvidia.conf</code> (which may be unnecessary though)</p>
+<pre><code class="language-jsx">Section &quot;Device&quot;
+    Identifier	&quot;Device0&quot;
+    Driver 	&quot;nvidia&quot;
+    VendorName	&quot;NVIDIA Corporation&quot;
+    BoardName	&quot;NVIDIA GeForce RTX 3060 Laptop GPU&quot;
+    Option	&quot;RgistryDwords&quot; &quot;EnableBrightnessControl=1&quot;
+EndSection
+</code></pre>
+<h2 id="install-clash">Install Clash</h2>
+<p>If you have a VPN subscription, you can use clash as the client.</p>
+<ul>
+<li>
+<p>download clash from github and move to a repo</p>
+</li>
+<li>
+<p>download the subscription yaml by <code>wget -O config.yaml &lt;subscription-url&gt;</code></p>
+</li>
+<li>
+<p>download Country.mmdb by <code>wget -O Country.mmdb https://www.sub-speeder.com/client-download/Country.mmdb</code></p>
+</li>
+<li>
+<p>run clash: <code>chmod +x clash</code> &amp;&amp; <code>./clash -d .</code></p>
+</li>
+<li>
+<p>configure clash further: visit <code>[clash.razord.top](http://clash.razord.top)</code> via browser (e.g. proxy, rules)</p>
+</li>
+<li>
+<p>configure systemd</p>
+<ul>
+<li><code>sudo gedit /etc/systemd/system/clash.service</code> and add the following</li>
+</ul>
+<pre><code class="language-bash">[Unit] 
+Description=clash daemon  
+[Service] 
+Type=simple 
+User=root 
+ExecStart=&lt;absolute-clash-repo&gt;/clash -d &lt;absolute-clash-repo&gt;/ 
+Restart=on-failure  
+[Install] 
+WantedBy=multi-user.target
+</code></pre>
+<ul>
+<li>run the following</li>
+</ul>
+<pre><code class="language-bash">sudo systemctl daemon-reload 
+sudo systemctl enable clash 
+sudo systemctl start clash 
+sudo systemctl status clash
+</code></pre>
+</li>
+<li>
+<p>configure proxy settings if necessary (as pip may not recognize the socks version)</p>
+<ul>
+<li>modify <code>/etc/environment</code> by adding</li>
+</ul>
+<pre><code class="language-bash">all_proxy=&quot;socks5://127.0.0.1:7891&quot;
+ALL_PROXY=&quot;socks5://127.0.0.1:7891&quot;
+</code></pre>
+</li>
+</ul>
+<h2 id="install-proxychains">Install proxychains</h2>
+<p><a href="https://guangchuangyu.github.io/cn/2018/09/proxychains/">Reference</a></p>
+<p><code>sudo apt install proxychains</code></p>
+<p>Comment <code>proxy_dns</code> within file <code>/etc/proxychains.conf</code></p>
+<p>Add <code>socks5 &lt;ip&gt; &lt;port&gt;</code> to the <code>[ProxyList]</code> (located around the end of <code>/etc/proxychains.conf</code>)</p>
+<h2 id="install-chrome">Install Chrome</h2>
+<pre><code class="language-bash">wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+</code></pre>
+<h2 id="install-zsh">Install zsh</h2>
+<p>for a mandarin tutorial, visit here: <a href="https://zhuanlan.zhihu.com/p/139305626">https://zhuanlan.zhihu.com/p/139305626</a></p>
+<h2 id="install-vim-awesome">Install Vim Awesome</h2>
+<p>configuration：<a href="https://github.com/amix/vimrc">https://github.com/amix/vimrc</a></p>
+<pre><code class="language-bash"># download
+git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+# install vimrc
+sh ~/.vim_runtime/install_awesome_vimrc.sh
+</code></pre>
+<h2 id="install-keyboard-input-method">Install Keyboard Input Method</h2>
+<p>Now, I use <code>fcitx-prime</code> instead</p>
+<p><code>sudo apt remove --purge ibus</code> to remove ibus (to avoid potential conflicts)</p>
+<p><code>sudo apt install fcitx fcitx-frontend-all fcitx-rime</code> &amp;&amp; <code>im-config -n fcitx</code> to install <code>fcitx-rime</code></p>
+<ul>
+<li>
+<p>then reboot</p>
+</li>
+<li>
+<p>configure the shortcut in language settings (choose right-shift to switch language input methods)</p>
+</li>
+<li>
+<p>use <code>f4</code> to configure settings</p>
+</li>
+<li>
+<p><code>nano ~/.config/fcitx/rime/build/luna_pinyin.schema.yaml</code></p>
+<ul>
+<li>add <code>reset: 1</code> to pick simplified chinese by default</li>
+</ul>
+<pre><code>switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification    # 轉換開關
+	  reset: 1
+    states: [ 漢字, 汉字 ]
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>As a mandarin speaker, I need to install google pinyin</p>
+</blockquote>
+<blockquote>
+<p><code>sudo apt install fcitx-googlepinyin</code></p>
+</blockquote>
+<blockquote>
+<p><code>settings</code> &gt; <code>region &amp; language</code> &gt; <code>manage installed languages</code> &gt; <code>install</code> (optional) &gt; <code>keyboard input method system: fcitx</code> &amp;&amp; reboot</p>
+</blockquote>
+<blockquote>
+<p><code>fcitx-configtool</code></p>
+</blockquote>
+<blockquote>
+<p>add <code>Google Pinyin</code></p>
+</blockquote>
+<blockquote>
+<p>use <code>ctrl + space</code> to toggle</p>
+</blockquote>
+<blockquote>
+<p>However, this is not beautiful enough, which needs further improvement;</p>
+</blockquote>
+<blockquote>
+<p>And, there are keybinding conflicts when <code>kinto</code> is used.</p>
+</blockquote>
+<h2 id="install-icloud-drive">Install iCloud Drive</h2>
+<p><code>sudo snap install icloud-for-linux</code></p>
+<h2 id="install-netease-cloud-music">Install Netease Cloud Music</h2>
+<ul>
+<li>download deb package from https://github.com/gmg137/netease-cloud-music-gtk</li>
+<li>install it with <code>sudo dpkg -i &lt;deb-file&gt;</code></li>
+<li>install MPEG-4 AAC &amp; H.264 decoder
+<ul>
+<li><code>sudo apt-get install ubuntu-restricted-extras</code></li>
+<li><code>sudo apt-get install libavcodec58 ffmpeg</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="install-conda">Install Conda</h2>
+<p>I picked miniconda followed by the official website instructions.</p>
+<p>(optional) Due to network issues, I replace the <code>pip</code> source with aliyun</p>
+<pre><code class="language-bash">pip config set global.index-url https://mirrors.aliyun.com/pypi/simple \
+	&amp;&amp; pip config set install.trusted-host mirrors.aliyun.com
+</code></pre>
+<h2 id="change-to-macos-like-keymap-using-kinto">Change to MacOS-like keymap using kinto</h2>
+<p>visit https://github.com/rbreaves/kinto and follow the installation instruction</p>
+<ul>
+<li>I failed the installation using its new method (as some repo url is wrong), so I cloned it and run the setup.py manually and follow the instructions at the end of the script</li>
+<li>run the kinito-gui.py if necessary
+<ul>
+<li>I failed to do so due to mismatch of python from miniconda and the script (located at /bin); this issue helped me, so I deactivate conda: https://github.com/rbreaves/kinto/issues/388</li>
+</ul>
+</li>
+<li>Sometimes, <code>kinto</code> cannot start as expected due to the missing <code>DISPLAY</code> env, modify the <code>xkeysnail</code> service file like this</li>
+</ul>
+<pre><code class="language-bash">/usr/bin/sudo /bin/bash -c 'export DISPLAY=:1; /usr/bin/xhost +SI:localuser:root &amp;&amp; /home/lin/.config/kinto/killdups.sh &amp;&amp; /usr/local/bin/xkeysnail --watch /home/lin/.config/kinto/kinto.py'
+</code></pre>
+<ul>
+<li>If you want to dynamically get the <code>DISPLAY</code> name, then you can learn it via <a href="https://askubuntu.com/questions/744723/how-to-programmatically-find-the-current-value-of-display-when-display-is-unset/744751#744751">https://askubuntu.com/questions/744723/how-to-programmatically-find-the-current-value-of-display-when-display-is-unset/744751#744751</a></li>
+<li>Actually, to use the environment variables in <code>systemd</code> files, one need to expand it manually (refer to <a href="https://serverfault.com/questions/828999/systemd-environment-and-environmentfile-not-working">https://serverfault.com/questions/828999/systemd-environment-and-environmentfile-not-working</a>)</li>
+<li>The shortcut for showing or hiding all windows is now <code>win + alt + D</code></li>
+</ul>
+<h2 id="configure-mouse">Configure Mouse</h2>
+<p><code>settings</code> &gt; <code>mouse&amp;touchpad</code> &gt; <code>natural scrolling</code> on</p>
+<h2 id="generate-ssh-key-and-connect-to-github">Generate SSH Key and Connect to GitHub</h2>
+<p>Follow GitHub’s instruction to both generate key pairs and upload public key (not private): <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Link</a></p>
+<p>Upon the first connection to an unknown host (e.g. GitHub), ssh will prompt to ask for fingerprint verification. An easy (but less secure) way is to type <code>yes</code> when being asked.</p>
+<h2 id="windowing-system">Windowing System</h2>
+<p>Now, let us move on to beautify the desktop. But before doing that, we need to understand some nomenclature about the windowing system (may be incorrect)</p>
+<ul>
+<li>X Server is a display server with X11 communication protocol</li>
+<li><code>GTK</code>, <code>GTK+</code> and <code>Qt</code> are GUI toolkits, running on top of X Server</li>
+<li><code>GNOME</code> and <code>KDE</code> are desktop environments. <code>GNOME</code> primarily use <code>GTK+</code> while <code>KDE</code> use <code>Qt</code></li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c041daee-e0ac-4712-8f92-35e92dd4c20d/Untitled.png" alt="Untitled" loading="lazy"></figure>
+<h2 id="tweak-gnome-desktop-looking">Tweak Gnome Desktop Looking</h2>
+<p>Search and download one of the GTK3/4 Themes, and put it in <code>/usr/share/themes</code></p>
+<p>Search <code>tweaks</code> from applications, and tweak the appearance.</p>
+<ul>
+<li>If you want to install <code>Orchis</code> theme and hope for more customization features, you’d better install it via git clone its repo.</li>
+</ul>
+<p>Search and download an icon set, which I choose Tela</p>
+<p>Install gnome extension browser integeration, install <code>dash to dock</code> and configure it via <code>tweaks</code> &gt; <code>extensions</code></p>
+<p>Download a wallpaper from (e.g. Unsplash)…</p>
+<h2 id="install-fonts">Install Fonts</h2>
+<p>I prefer JetBrains Mono, go to <a href="https://www.jetbrains.com/lp/mono/#how-to-install">https://www.jetbrains.com/lp/mono/#how-to-install</a></p>
+<h2 id="install-vscode">Install VSCode</h2>
+<p>Install the <code>.deb</code> version instead of the <code>snap</code> one.</p>
+<p><a href="https://code.visualstudio.com/docs/setup/linux">https://code.visualstudio.com/docs/setup/linux</a></p>
+<ul>
+<li>
+<p>Disable <code>alt</code> key from toggling the menu</p>
+<pre><code>&quot;window.customMenuBarAltFocus&quot;: false,
+&quot;window.enableMenuBarMnemonics&quot;: false,
+&quot;window.menuBarVisibility&quot;: &quot;hidden&quot;,
+</code></pre>
+<p>To further configure it, I found a solution online using extension called <code>Settings Cycler</code>:</p>
+<p><strong>1. in <code>settings.json</code> add:</strong></p>
+<pre><code>&quot;settings.cycle&quot;: [{
+        &quot;id&quot;: &quot;toggleMenuBar&quot;,
+        &quot;values&quot;:[
+            { &quot;window.menuBarVisibility&quot;: &quot;hidden&quot; },
+            { &quot;window.menuBarVisibility&quot;: &quot;visible&quot; }
+        ]
+      }
+    ],
+
+</code></pre>
+<p><strong>2. Set a keybinding for the new command:</strong></p>
+<pre><code>{
+     &quot;key&quot;: &quot;alt+shift+w&quot;,
+     &quot;command&quot;: &quot;settings.cycle.toggleMenuBar&quot;,
+}
+</code></pre>
+</li>
+<li>
+<p>Configure Integrated Terminal Shortcuts (to align with <code>kinto</code>)</p>
+<p>I found a solution on <code>kinto</code>'s issue by configuring the <code>keybindings.json</code></p>
+<pre><code class="language-json">[
+  {
+    &quot;key&quot;: &quot;ctrl+c&quot;,
+    &quot;command&quot;: &quot;workbench.action.terminal.copySelection&quot;,
+    &quot;when&quot;: &quot;terminalFocus &amp;&amp; terminalHasBeenCreated &amp;&amp; terminalTextSelected || terminalFocus &amp;&amp; terminalProcessSupported &amp;&amp; terminalTextSelected&quot;
+  },
+  {
+    &quot;key&quot;: &quot;ctrl+v&quot;,
+    &quot;command&quot;: &quot;workbench.action.terminal.paste&quot;,
+    &quot;when&quot;: &quot;terminalFocus &amp;&amp; terminalHasBeenCreated || terminalFocus &amp;&amp; terminalProcessSupported&quot;
+  },
+  {
+    &quot;key&quot;: &quot;meta+l&quot;,
+    &quot;command&quot;: &quot;workbench.action.terminal.clear&quot;
+  },
+  {
+    &quot;key&quot;: &quot;meta+c&quot;,
+    &quot;args&quot;: { &quot;text&quot;: &quot;\u0003&quot; },
+    &quot;command&quot;: &quot;workbench.action.terminal.sendSequence&quot;
+  }
+]
+</code></pre>
+</li>
+</ul>
+<h2 id="shorten-the-command-line-bash-prompt">Shorten the Command Line Bash Prompt</h2>
+<p>remove <code>\h</code> from <code>~/.bashrc</code> where there is an <code>PS1</code></p>
+<h2 id="configure-conda-source">Configure Conda Source</h2>
+<p>If you are located in mainland, you could configure conda source</p>
+<pre><code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+# 以上两条是Anaconda官方库的镜像
+
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+# 以上是Anaconda第三方库 Conda Forge的镜像
+
+# for linux
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+# for legacy win-64
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/peterjc123/
+以上两条是Pytorch的Anaconda第三方镜像
+
+conda config --set show_channel_urls yes
+</code></pre>
+<p>All of these can be further modified and verified in <code>~/.condarc</code></p>
+<h2 id="modify-git-proxy-configuration">Modify Git Proxy Configuration</h2>
+<p>(optional)</p>
+<h2 id="install-mujoco">Install MuJoCo</h2>
+<p>Download it from GitHub, and unzip to <code>~/.mujoco/</code> sub-directory</p>
+<p>Possibly run <code>sudo apt install libx11-dev</code> to solve <code>X11</code> missing header (which will incur compile error)</p>
+<p>and run <code>sudo apt install libglew-dev</code> to solve missing <code>GL/glew.h</code> header</p>
+<p>and run <code>sudo apt install patchelf</code></p>
+<h2 id="configure-thunderbird-mail">Configure Thunderbird Mail</h2>
+<p>For iCloud Mail, see apple official website, configure imap &amp; smtp server, and use the generated password</p>
+<p>Use Ubuntu’s <code>Start Application</code> to add this app as the start up app</p>
+<h2 id="install-goldendict">Install GoldenDict</h2>
+<p><code>sudo apt install goldendict</code></p>
+<p>download dictionaries from <a href="http://download.huzheng.org/zh_CN/"><code>http://download.huzheng.org/zh_CN/</code></a></p>
+<p>and configure it in <code>edit</code> &gt; <code>dictionaries</code> &gt; <code>files</code></p>
+<ul>
+<li>after adding them, press <code>rescan now</code></li>
+</ul>
+<p>also add <a href="http://dict.youdao.com/search?q=%25GDWORD%25&amp;ue=utf8"><code>http://dict.youdao.com/search?q=%GDWORD%&amp;ue=utf8</code></a> to <code>dictionaires</code> &gt; <code>websites</code></p>
+<h2 id="install-rclone">Install rclone</h2>
+<blockquote>
+<p>So far, I haven’t configured rclone good enough to mount Google Drive to local file system, due to systemd and token issues.</p>
+</blockquote>
+<p><code>rclone</code> website is comprehensive enough for a boost for installation (the script installation method may be too slow, then you can download the package directly)</p>
+<p>Then, I tried to connect to the Google Drive by following the configuration instruction (btw, the official doc of rclone is great)</p>
+<p>Check the completion of configuration by using <code>rclone lsd &lt;remote-name&gt;:</code> (which lists directories in the top level)</p>
+<p>Then, we will mount our Drive</p>
+<ul>
+<li>(optional) <code>sudo apt install fuse</code> if fuse is not installed in advance</li>
+<li>use the <code>rclone mount</code> command e.g. (<code>-vvv</code> is for verbose mode, <code>--daemon</code> for background mode)</li>
+</ul>
+<pre><code class="language-jsx">rclone mount gremote:paper /home/lin/Documents/paper --copy-links --allow-non-empty --umask 000 -vvv --daemon
+</code></pre>
+<ul>
+<li>use e.g. <code>fusermount -qzu /home/lin/Documents/paper</code> to unmount</li>
+<li>we need to manually configure the</li>
+<li>the following shows how to automatically start after boost</li>
+<li>create a systemd service by adding a configuration file <code>/usr/lib/systemd/system/rclone.service</code> e.g.</li>
+</ul>
+<pre><code class="language-bash">[Unit]
+Description = rclone
+After=network-online.target
+
+[Service]
+User = lin
+ExecStart = /usr/bin/rclone mount gremote:paper /home/lin/Documents/paper --copy-links --no-gzip-encoding --no-check-certificate --allow-non-empty --umask 000 --daemon
+Restart = on-abort
+
+[Install]
+WantedBy = multi-user.target
+</code></pre>
+<ul>
+<li>run <code>systemctl daemon-reload</code></li>
+<li><code>systemctl start rclone</code></li>
+<li>check the status by <code>systemctl status rclone</code> and <code>df -h</code></li>
+<li>enable autostart by <code>systemctl enable rclone</code></li>
+<li>then reboot to check if works (along with <code>df- h</code>)</li>
+</ul>
+<h2 id="install-zotero">Install Zotero</h2>
+<ul>
+<li>remember to install chrome plugin</li>
+<li>replace the pdf reader with <code>okular</code></li>
+</ul>
+<blockquote>
+<p>The location for <code>.desktop</code> files are:</p>
+</blockquote>
+<ol>
+<li><strong>Most apps:</strong> /usr/share/applications/</li>
+<li><strong>Some apps:</strong> /usr/local/share/applications</li>
+<li><strong>Some other apps:</strong> ~/.local/share/applications/</li>
+<li><strong>Installed with Snap apps:</strong> /var/lib/snapd/desktop/applications/</li>
+<li><strong>Installed with Flatpak apps:</strong> /var/lib/flatpak/exports/share/applications/</li>
+<li><strong>Installed with Wine apps:</strong> ~/.local/share/applications/wine/Programs/</li>
+</ol>
+<blockquote>
+<p>The defaults can be modifed via <code>defaults.list</code> file located on the above directories (e.g. changing default pdf viewer by modifying the line started with <code>application/pdf</code>)</p>
+</blockquote>
+<ul>
+<li>(optional) install <code>zotfile</code> plugin</li>
+</ul>
+<h2 id="install-okular">Install Okular</h2>
+<p>Install it via Ubuntu Store, which will automatically download the snap version (as <code>Okular</code> is not native for ubuntu, but for KDE)</p>
+<p>Configuration of changing colors: <a href="https://askubuntu.com/questions/1130512/is-there-any-pdf-viewer-with-dark-mode">https://askubuntu.com/questions/1130512/is-there-any-pdf-viewer-with-dark-mode</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://jimmylin99.github.io/post/hello-gridea/</id>
+        <link href="https://jimmylin99.github.io/post/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="https://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+</feed>
